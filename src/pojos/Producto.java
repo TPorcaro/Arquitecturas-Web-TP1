@@ -27,5 +27,4 @@ public class Producto {
 		return idProducto;
 	}
 	
-	
 }

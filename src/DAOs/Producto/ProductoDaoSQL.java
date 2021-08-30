@@ -1,4 +1,4 @@
-package DAOs;
+package daos.Producto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pojos.Cliente;
+import pojos.Producto;
 
-public class ClienteDaoSQL implements ClienteDao {
+public class ProductoDaoSQL implements ProductoDao {
 	String driver;
 	String uri;
 
-	public ClienteDaoSQL() {
+	public ProductoDaoSQL() {
 		this.driver = "com.mysql.cj.jdbc.Drive";
 		this.uri = "jdbc:mysql://localhost:3306/example";
 	}
@@ -41,13 +42,13 @@ public class ClienteDaoSQL implements ClienteDao {
 		}
 	}
 	@Override
-	public void create(Cliente pojo) throws SQLException {
+	public void create(Producto pojo) throws SQLException {
 		Connection conn = this.createConnection();
-		String insert = "INSERT INTO cliente (idCliente, nombre, email) VALUES (?,?,?)";
+		String insert = "INSERT INTO producto (idProducto, nombre, valor) VALUES (?,?,?)";
 		PreparedStatement ps = conn.prepareStatement(insert);
-		ps.setInt(1, pojo.getIdCliente());
+		ps.setInt(1, pojo.getIdProducto());
 		ps.setString(2, pojo.getNombre());
-		ps.setString(3,pojo.getEmail());
+		ps.setFloat(3, pojo.getValor());
 		ps.executeUpdate();
 		ps.close();
 		conn.commit();
@@ -57,7 +58,7 @@ public class ClienteDaoSQL implements ClienteDao {
 	@Override
 	public boolean delete(int id) throws SQLException {
 		Connection conn = this.createConnection();
-		String delete = "DELETE FROM cliente WHERE id=?";
+		String delete = "DELETE FROM producto WHERE id=?";
 		PreparedStatement ps = conn.prepareStatement(delete);
 		ps.setInt(1, id);
 		int deleted = ps.executeUpdate();
@@ -68,18 +69,18 @@ public class ClienteDaoSQL implements ClienteDao {
 	}
 
 	@Override
-	public Cliente get(int id) throws SQLException {
+	public Producto get(int id) throws SQLException {
 		Connection conn = this.createConnection();
-		String get = "SELECT FROM persona WHERE id=?";
+		String get = "SELECT FROM cliente WHERE id=?";
 		PreparedStatement ps = conn.prepareStatement(get);
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery(get);
 		ps.close();
 		conn.commit();
 		this.closeConnection(conn);
-		Cliente p;
+		Producto p;
 		if(rs.next()) {
-			p = new Cliente(rs.getInt(1),rs.getString(2),rs.getString(3));
+			p = new Producto(rs.getInt(1),rs.getString(2),rs.getFloat(3));
 			return p;
 		}else {
 			return null;
@@ -87,38 +88,37 @@ public class ClienteDaoSQL implements ClienteDao {
 	}
 
 	@Override
-	public List<Cliente> getAll() throws SQLException {
+	public List<Producto> getAll() throws SQLException {
 		Connection conn = this.createConnection();
 		String getAll = "SELECT * FROM cliente";
 		PreparedStatement ps = conn.prepareStatement(getAll);
 		ResultSet rs = ps.executeQuery();
 		conn.commit();
-		ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
+		ArrayList<Producto> productoList = new ArrayList<Producto>();
 		while(rs.next()) {
-			Cliente p = new Cliente(rs.getInt(1),rs.getString(2),rs.getString(3));
-			clienteList.add(p);
+			Producto p = new Producto(rs.getInt(1),rs.getString(2),rs.getFloat(3));
+			productoList.add(p);
 		}
 		ps.close();
 		this.closeConnection(conn);
-		return clienteList;
+		return productoList;
 	}
-
 	@Override
-	public List<Cliente> getClienteByFacturacion() throws SQLException {
+	public Producto getMasRecaudado() throws SQLException {
 		Connection conn = this.createConnection();
-		String getByFacturacion = "";
-		PreparedStatement ps = conn.prepareStatement(getByFacturacion);
+		String getMasRecaudado = "SELECT blabla";
+		PreparedStatement ps = conn.prepareStatement(getMasRecaudado);
 		ResultSet rs = ps.executeQuery();
 		conn.commit();
-		ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
-		while(rs.next()) {
-			Cliente p = new Cliente(rs.getInt(1),rs.getString(2),rs.getString(3));
-			clienteList.add(p);
-		}
 		ps.close();
 		this.closeConnection(conn);
-		return clienteList;
+		while(rs.next()) {
+			Producto p = new Producto(rs.getInt(1),rs.getString(2),rs.getFloat(3));
+			return p;
+		}
+		return null;
 	}
+
 	
 	
 
