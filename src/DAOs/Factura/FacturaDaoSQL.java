@@ -62,7 +62,7 @@ public class FacturaDaoSQL implements FacturaDao {
 	@Override
 	public boolean delete(int id) throws SQLException {
 		Connection conn = this.createConnection();
-		String delete = "DELETE FROM factura WHERE id=?";
+		String delete = "DELETE FROM factura WHERE idFactura=?";
 		PreparedStatement ps = conn.prepareStatement(delete);
 		ps.setInt(1, id);
 		int deleted = ps.executeUpdate();
@@ -75,7 +75,7 @@ public class FacturaDaoSQL implements FacturaDao {
 	@Override
 	public Factura get(int id) throws SQLException {
 		Connection conn = this.createConnection();
-		String get = "SELECT FROM factura WHERE id=?";
+		String get = "SELECT FROM factura WHERE idFactura=?";
 		PreparedStatement ps = conn.prepareStatement(get);
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery(get);

@@ -58,7 +58,7 @@ public class ProductoDaoSQL implements ProductoDao {
 	@Override
 	public boolean delete(int id) throws SQLException {
 		Connection conn = this.createConnection();
-		String delete = "DELETE FROM producto WHERE id=?";
+		String delete = "DELETE FROM producto WHERE idProducto=?";
 		PreparedStatement ps = conn.prepareStatement(delete);
 		ps.setInt(1, id);
 		int deleted = ps.executeUpdate();
@@ -71,7 +71,7 @@ public class ProductoDaoSQL implements ProductoDao {
 	@Override
 	public Producto get(int id) throws SQLException {
 		Connection conn = this.createConnection();
-		String get = "SELECT FROM cliente WHERE id=?";
+		String get = "SELECT FROM cliente WHERE idProducto=?";
 		PreparedStatement ps = conn.prepareStatement(get);
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery(get);
@@ -106,7 +106,10 @@ public class ProductoDaoSQL implements ProductoDao {
 	@Override
 	public Producto getMasRecaudado() throws SQLException {
 		Connection conn = this.createConnection();
-		String getMasRecaudado = "SELECT blabla";
+		String getMasRecaudado = "SELECT p.idProducto,p.nombre,p.valor,SUM(cantidad) as cantidad, SUM(cantidad)*p.valor AS total\r\n"
+				+ "FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto \r\n"
+				+ "GROUP BY p.idProducto \r\n"
+				+ "ORDER BY total DESC;";
 		PreparedStatement ps = conn.prepareStatement(getMasRecaudado);
 		ResultSet rs = ps.executeQuery();
 		conn.commit();
