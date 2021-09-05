@@ -22,7 +22,7 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, SQLException {
 		DAOFactory factory = DAOFactory.getDaoFactory(DAOFactory.SQL);
-		factory.createAllTables();
+		//factory.createAllTables();
 		ClienteDaoSQL clienteDao = (ClienteDaoSQL) factory.getClienteDao();
 		FacturaDaoSQL facturaDao = (FacturaDaoSQL) factory.getFacturaDao();
 		ProductoDaoSQL productoDao = (ProductoDaoSQL) factory.getProductoDao();
@@ -31,7 +31,8 @@ public class Main {
 		ArrayList<Factura> facturaList = new FacturaCsvReader("./src/FilesCsv/facturas.csv").readAndGetCsvFile();
 		ArrayList<Producto> productoList = new ProductoCsvReader("./src/FilesCsv/productos.csv").readAndGetCsvFile();
 		ArrayList<Factura_Producto> facturaProdList = new Factura_ProductoCsvReader("./src/FilesCsv/facturas-productos.csv").readAndGetCsvFile();
-		System.out.println("--------------------------");
+		/**
+		 * System.out.println("--------------------------");
 		for(Cliente client: clientList) {
 			clienteDao.create(client);
 		}
@@ -47,6 +48,14 @@ public class Main {
 		for(Factura_Producto billProd: facturaProdList) {
 			FacturaProductodao.create(billProd);
 		}
+		*/
+		System.out.println(productoDao.getMasRecaudado());
+		ArrayList<Cliente> clientByFacturacion= (ArrayList<Cliente>) clienteDao.getClienteByFacturacion();
+		for(Cliente client: clientByFacturacion) {
+			System.out.println(client);
+		}
+		
+		
 	}
 
 }

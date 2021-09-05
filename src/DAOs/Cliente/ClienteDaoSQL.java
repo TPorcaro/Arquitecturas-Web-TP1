@@ -106,7 +106,11 @@ public class ClienteDaoSQL implements ClienteDao {
 	@Override
 	public List<Cliente> getClienteByFacturacion() throws SQLException {
 		Connection conn = this.createConnection();
-		String getByFacturacion = "";
+		String getByFacturacion = "SELECT c.idCliente, c.nombre, c.email, SUM(fp.cantidad) as cantidad, SUM(fp.cantidad)*p.valor AS total "
+				+ "FROM cliente c "
+				+ "JOIN factura f ON (c.idCliente = f.idCliente) "
+				+ "JOIN factura_producto fp ON f.idFactura = fp.idFactura "
+				+ "JOIN producto p ON fp.idProducto = p.idProducto GROUP BY c.idCliente ORDER BY total DESC";
 		PreparedStatement ps = conn.prepareStatement(getByFacturacion);
 		ResultSet rs = ps.executeQuery();
 		conn.commit();

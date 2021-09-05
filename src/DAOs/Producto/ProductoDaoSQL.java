@@ -106,20 +106,20 @@ public class ProductoDaoSQL implements ProductoDao {
 	@Override
 	public Producto getMasRecaudado() throws SQLException {
 		Connection conn = this.createConnection();
-		String getMasRecaudado = "SELECT p.idProducto,p.nombre,p.valor,SUM(cantidad) as cantidad, SUM(cantidad)*p.valor AS total\r\n"
-				+ "FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto \r\n"
-				+ "GROUP BY p.idProducto \r\n"
-				+ "ORDER BY total DESC;";
+		String getMasRecaudado = "SELECT p.idProducto,p.nombre,p.valor,SUM(cantidad) as cantidad, SUM(cantidad)*p.valor AS total "
+				+ "FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto "
+				+ "GROUP BY p.idProducto "
+				+ "ORDER BY total DESC LIMIT 1";
+		Producto p = null;
 		PreparedStatement ps = conn.prepareStatement(getMasRecaudado);
 		ResultSet rs = ps.executeQuery();
+		while(rs.next()) {
+			 p = new Producto(rs.getInt(1),rs.getString(2),rs.getFloat(3));
+		}
 		conn.commit();
 		ps.close();
 		this.closeConnection(conn);
-		while(rs.next()) {
-			Producto p = new Producto(rs.getInt(1),rs.getString(2),rs.getFloat(3));
-			return p;
-		}
-		return null;
+		return p;
 	}
 
 	
