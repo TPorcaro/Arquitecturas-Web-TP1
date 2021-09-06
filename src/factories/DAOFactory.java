@@ -80,10 +80,6 @@ public abstract class DAOFactory {
 	}
 	public void createAllTables() throws SQLException {
 		Connection conn = this.createConnection();
-		/*String tableCreation = DAOFactory.CLIENTETABLE +"; " + 
-							   DAOFactory.FACTURATABLE + "; " + 
-							   DAOFactory.PRODUCTOTABLE + "; " + 
-							   DAOFactory.FACTURA_PRODUCTOTABLE+";";*/
 		conn.prepareStatement(DAOFactory.CLIENTETABLE).execute();
 		conn.prepareStatement(DAOFactory.FACTURATABLE).execute();
 		conn.prepareStatement(DAOFactory.PRODUCTOTABLE).execute();

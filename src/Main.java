@@ -22,7 +22,7 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, SQLException {
 		DAOFactory factory = DAOFactory.getDaoFactory(DAOFactory.SQL);
-		//factory.createAllTables();
+		//factory.createAllTables(); // CREA LAS TABLAS
 		ClienteDaoSQL clienteDao = (ClienteDaoSQL) factory.getClienteDao();
 		FacturaDaoSQL facturaDao = (FacturaDaoSQL) factory.getFacturaDao();
 		ProductoDaoSQL productoDao = (ProductoDaoSQL) factory.getProductoDao();
@@ -31,8 +31,9 @@ public class Main {
 		ArrayList<Factura> facturaList = new FacturaCsvReader("./src/FilesCsv/facturas.csv").readAndGetCsvFile();
 		ArrayList<Producto> productoList = new ProductoCsvReader("./src/FilesCsv/productos.csv").readAndGetCsvFile();
 		ArrayList<Factura_Producto> facturaProdList = new Factura_ProductoCsvReader("./src/FilesCsv/facturas-productos.csv").readAndGetCsvFile();
-		/**
-		 * System.out.println("--------------------------");
+		/** 
+		  //CREA LOS REGISTROS DE LAS TABLAS
+		  System.out.println("--------------------------");
 		for(Cliente client: clientList) {
 			clienteDao.create(client);
 		}
