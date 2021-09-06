@@ -7,7 +7,5 @@ import daos.CrudDao;
 import pojos.Factura;
 
 public interface FacturaDao extends CrudDao<Factura> {
-	
-	List<Factura> getAllByCliente(int cliente) throws SQLException;
 
 }

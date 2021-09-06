@@ -23,6 +23,10 @@ public class FacturaDaoSQL implements FacturaDao {
 		this.uri = "jdbc:mysql://localhost:3306/example";
 	}
 	
+	/**
+	 * Crea la conexión con la base de datos
+	 * @return Connection
+	 */
 	private Connection createConnection() {
 		Connection conn;
 		try {
@@ -35,6 +39,11 @@ public class FacturaDaoSQL implements FacturaDao {
 			return null;
 		}
 	}
+	/**
+	 * Cierra la conexión que le pasamos por parametros
+	 * @param conn 
+	 * @return boolean que representa si se cerro la coneccion o no
+	 */
 	private boolean closeConnection(Connection conn) {
 		try {
 			conn.close();
@@ -46,6 +55,10 @@ public class FacturaDaoSQL implements FacturaDao {
 		}
 	}
 
+	/**
+	 * Dada una Factura, crea en la base de datos en la tabla factura,
+	 * un registro con sus datos.
+	 */
 	@Override
 	public void create(Factura pojo) throws SQLException {
 		Connection conn = this.createConnection();
@@ -59,6 +72,10 @@ public class FacturaDaoSQL implements FacturaDao {
 		this.closeConnection(conn);
 	}
 
+	/**
+	 * Dado un id que debera coincidir con una primary key
+	 * en la tabla, elimina una Factura.
+	 */
 	@Override
 	public boolean delete(int id) throws SQLException {
 		Connection conn = this.createConnection();
@@ -72,6 +89,10 @@ public class FacturaDaoSQL implements FacturaDao {
 		return deleted != 0;
 	}
 
+	/**
+	 * Dado un id que debera coincidir con una primary key
+	 * en la base de datos, devolvera una Factura
+	 */
 	@Override
 	public Factura get(int id) throws SQLException {
 		Connection conn = this.createConnection();
@@ -92,27 +113,13 @@ public class FacturaDaoSQL implements FacturaDao {
 	}
 
 	@Override
+	/**
+	 * Retorna una lista de Factura, donde se encuentran todas las facturas
+	 */
 	public List<Factura> getAll() throws SQLException {
 		Connection conn = this.createConnection();
 		String getAll = "SELECT * FROM factura";
 		PreparedStatement ps = conn.prepareStatement(getAll);
-		ResultSet rs = ps.executeQuery();
-		conn.commit();
-		ArrayList<Factura> facturaList = new ArrayList<Factura>();
-		while(rs.next()) {
-			Factura p = new Factura(rs.getInt(1),rs.getInt(2));
-			facturaList.add(p);
-		}
-		ps.close();
-		this.closeConnection(conn);
-		return facturaList;
-	}
-
-	@Override
-	public List<Factura> getAllByCliente(int cliente) throws SQLException {
-		Connection conn = this.createConnection();
-		String getAllByCliente = "";
-		PreparedStatement ps = conn.prepareStatement(getAllByCliente);
 		ResultSet rs = ps.executeQuery();
 		conn.commit();
 		ArrayList<Factura> facturaList = new ArrayList<Factura>();

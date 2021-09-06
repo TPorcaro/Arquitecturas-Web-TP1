@@ -26,7 +26,7 @@ public class Main {
 		ClienteDaoSQL clienteDao = (ClienteDaoSQL) factory.getClienteDao();
 		FacturaDaoSQL facturaDao = (FacturaDaoSQL) factory.getFacturaDao();
 		ProductoDaoSQL productoDao = (ProductoDaoSQL) factory.getProductoDao();
-		Factura_ProductoDao FacturaProductodao = (Factura_ProductoDaoSQL) factory.getFacturaProductoDao();
+		Factura_ProductoDaoSQL FacturaProductodao = (Factura_ProductoDaoSQL) factory.getFacturaProductoDao();
 		ArrayList<Cliente> clientList = new ClienteCsvReader("./src/FilesCsv/clientes.csv").readAndGetCsvFile();
 		ArrayList<Factura> facturaList = new FacturaCsvReader("./src/FilesCsv/facturas.csv").readAndGetCsvFile();
 		ArrayList<Producto> productoList = new ProductoCsvReader("./src/FilesCsv/productos.csv").readAndGetCsvFile();
@@ -50,8 +50,9 @@ public class Main {
 			FacturaProductodao.create(billProd);
 		}
 		*/
-		System.out.println(productoDao.getMasRecaudado());
-		ArrayList<Cliente> clientByFacturacion= (ArrayList<Cliente>) clienteDao.getClienteByFacturacion();
+		System.out.println(productoDao.getMasRecaudado()); // PUNTO 3
+		 System.out.println("--------------------------");
+		ArrayList<Cliente> clientByFacturacion= (ArrayList<Cliente>) clienteDao.getClienteByFacturacion(); // PUNTO 4
 		for(Cliente client: clientByFacturacion) {
 			System.out.println(client);
 		}

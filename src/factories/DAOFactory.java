@@ -15,30 +15,41 @@ public abstract class DAOFactory {
 	public static final int SQL = 1;
 	public static final int DERBY = 2;
 	
-	
 	public abstract ClienteDao getClienteDao();
 	public abstract ProductoDao getProductoDao();
 	public abstract FacturaDao getFacturaDao();
 	public abstract Factura_ProductoDao getFacturaProductoDao();
 	
+	/**
+	 * Se crea el string que define la tabla cliente
+	 */
 	public static final String CLIENTETABLE = "CREATE TABLE cliente ("
 						+ "idCliente int(11),"
 						+ "nombre VARCHAR(500),"
 						+ "email VARCHAR(150),"
 						+ "PRIMARY KEY (idCLiente)"
 						+ ")";
+	/**
+	 * Se crea el string que define la tabla factura
+	 */
 	public static final String FACTURATABLE = "CREATE TABLE factura ("
 						+ "idFactura int(11),"
 						+ "idCliente int(11),"
 						+ "PRIMARY KEY (idFactura),"
 						+ "FOREIGN KEY (idCliente) REFERENCES cliente(idCliente)"
 						+ ")";
+	/**
+	 * Se crea el string que define la tabla producto
+	 */
 	public static final String PRODUCTOTABLE = "CREATE TABLE producto ("
 						 + "idProducto int(11),"
 						 + "nombre VARCHAR(45),"
 						 + "valor FLOAT,"
 						 + "PRIMARY KEY (idProducto)"
 						 + ")";
+	/**
+	 * Se crea el string que define la tabla factura_producto
+	 */
 	public static final String FACTURA_PRODUCTOTABLE = "CREATE TABLE factura_producto ("
 								 + "idFactura int(11),"
 								 + "idProducto int(11),"
@@ -78,6 +89,10 @@ public abstract class DAOFactory {
 			return false;
 		}
 	}
+	/**
+	 * Crea a partir de de los strings creados antes las tablas en la base de datos
+	 * @throws SQLException
+	 */
 	public void createAllTables() throws SQLException {
 		Connection conn = this.createConnection();
 		conn.prepareStatement(DAOFactory.CLIENTETABLE).execute();
@@ -88,6 +103,12 @@ public abstract class DAOFactory {
 		this.closeConnection(conn);
 		
 	}
+	/**
+	 * Dependiendo el parametro se retorna un factory que retorna daos
+	 * (en este caso solo retorna el caso de SQL)
+	 * @param factory
+	 * @return
+	 */
 	public static DAOFactory getDaoFactory(int factory) {
 		
 		switch(factory) {

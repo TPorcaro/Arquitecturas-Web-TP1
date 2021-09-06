@@ -21,6 +21,11 @@ public class Factura_ProductoCsvReader implements CsvReaderInterface<Factura_Pro
 		this.file = file;
 	}
 	@Override
+	/**
+	 * Se encarga de leer un archivo .csv que es
+	 * pasado en el constructor de la clase y retorna
+	 * una lista de Factura_Producto
+	 */
 	public ArrayList<Factura_Producto> readAndGetCsvFile() throws FileNotFoundException, IOException {
 		@SuppressWarnings("deprecation")
 		CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader(this.file));

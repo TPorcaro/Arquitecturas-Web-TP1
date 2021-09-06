@@ -19,6 +19,10 @@ public class ProductoDaoSQL implements ProductoDao {
 		this.driver = "com.mysql.cj.jdbc.Drive";
 		this.uri = "jdbc:mysql://localhost:3306/example";
 	}
+	/**
+	 * Crea una coneccion a una base de datos SQL
+	 * @return una conexion de tipo Connection de sql
+	 */
 	private Connection createConnection() {
 		Connection conn;
 		try {
@@ -31,6 +35,11 @@ public class ProductoDaoSQL implements ProductoDao {
 			return null;
 		}
 	}
+	/**
+	 * Se cierra una conexión dado una conexión dada
+	 * @param conn
+	 * @return boolean, que representa si se cerro la conexión o no
+	 */
 	private boolean closeConnection(Connection conn) {
 		try {
 			conn.close();
@@ -103,9 +112,14 @@ public class ProductoDaoSQL implements ProductoDao {
 		this.closeConnection(conn);
 		return productoList;
 	}
+	/**
+	 * Este metodo retorna el Producto que mas recaudo dependiendo
+	 * de cuanto facturaron con el.
+	 */
 	@Override
 	public Producto getMasRecaudado() throws SQLException {
 		Connection conn = this.createConnection();
+		// 
 		String getMasRecaudado = "SELECT p.idProducto,p.nombre,p.valor,SUM(cantidad) as cantidad, SUM(cantidad)*p.valor AS total "
 				+ "FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto "
 				+ "GROUP BY p.idProducto "
@@ -113,7 +127,7 @@ public class ProductoDaoSQL implements ProductoDao {
 		Producto p = null;
 		PreparedStatement ps = conn.prepareStatement(getMasRecaudado);
 		ResultSet rs = ps.executeQuery();
-		while(rs.next()) {
+		while(rs.next()) { // Se itera la fila resultante y se crea un Producto
 			 p = new Producto(rs.getInt(1),rs.getString(2),rs.getFloat(3));
 		}
 		conn.commit();

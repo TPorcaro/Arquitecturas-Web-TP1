@@ -17,6 +17,11 @@ public class ClienteCsvReader implements CsvReaderInterface<Cliente> {
 		this.file = file;
 	}
 	@Override
+	/**
+	 * Se encarga de leer un archivo .csv que es pasado 
+	 * en el constructor de la clase y luego 
+	 * se crea una lista de Cliente que es retornada
+	 */
 	public ArrayList<Cliente> readAndGetCsvFile() throws FileNotFoundException, IOException {
 		@SuppressWarnings("deprecation")
 		CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader(this.file));

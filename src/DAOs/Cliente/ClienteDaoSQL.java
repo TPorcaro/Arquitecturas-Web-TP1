@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pojos.Cliente;
-
+/**
+ * Esta clase implementa la interfaz de ClienteDao,
+ * por lo tanto tambien implementa en metodos concretos
+ * los metodos que definia ClienteDao.
+ */
 public class ClienteDaoSQL implements ClienteDao {
 	String driver;
 	String uri;
@@ -18,6 +22,10 @@ public class ClienteDaoSQL implements ClienteDao {
 		this.driver = "com.mysql.cj.jdbc.Drive";
 		this.uri = "jdbc:mysql://localhost:3306/example";
 	}
+	/**
+	 * Crea una coneccion a una base de datos SQL
+	 * @return una conexion de tipo Connection de sql
+	 */
 	private Connection createConnection() {
 		Connection conn;
 		try {
@@ -30,6 +38,11 @@ public class ClienteDaoSQL implements ClienteDao {
 			return null;
 		}
 	}
+	/**
+	 * Se cierra una conexión dado una conexión dada
+	 * @param conn
+	 * @return boolean, que representa si se cerro la conexión o no
+	 */
 	private boolean closeConnection(Connection conn) {
 		try {
 			conn.close();
@@ -40,6 +53,9 @@ public class ClienteDaoSQL implements ClienteDao {
 			return false;
 		}
 	}
+	/**
+	 * Crea un cliente en la base de datos, dado un objeto Cliente.
+	 */
 	@Override
 	public void create(Cliente pojo) throws SQLException {
 		Connection conn = this.createConnection();
@@ -54,6 +70,10 @@ public class ClienteDaoSQL implements ClienteDao {
 		this.closeConnection(conn);
 	}
 
+	/**
+	 * Borra un cliente dado un id, este coincidira con una primary key
+	 * de la tabla cliente.
+	 */
 	@Override
 	public boolean delete(int id) throws SQLException {
 		Connection conn = this.createConnection();
@@ -67,6 +87,10 @@ public class ClienteDaoSQL implements ClienteDao {
 		return deleted != 0;
 	}
 
+	/**
+	 * Retorna un Cliente dado un id, que debera coincidir con una primary key
+	 * de la tabla cliente.
+	 */
 	@Override
 	public Cliente get(int id) throws SQLException {
 		Connection conn = this.createConnection();
@@ -86,6 +110,10 @@ public class ClienteDaoSQL implements ClienteDao {
 		}
 	}
 
+	/**
+	 * Retorna todos los clientes que se encuentran
+	 * en la tabla cliente
+	 */
 	@Override
 	public List<Cliente> getAll() throws SQLException {
 		Connection conn = this.createConnection();
@@ -103,6 +131,11 @@ public class ClienteDaoSQL implements ClienteDao {
 		return clienteList;
 	}
 
+	/**
+	 * Este metodo retorna una lista de cliente,
+	 * ordenados por la cantidad de facturacion que posee cada uno,
+	 * 
+	 */
 	@Override
 	public List<Cliente> getClienteByFacturacion() throws SQLException {
 		Connection conn = this.createConnection();
@@ -115,7 +148,7 @@ public class ClienteDaoSQL implements ClienteDao {
 		ResultSet rs = ps.executeQuery();
 		conn.commit();
 		ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
-		while(rs.next()) {
+		while(rs.next()) { // Se iteran las filas y se crea un cliente por fila, se agrega a una lista de Cliente.
 			Cliente p = new Cliente(rs.getInt(1),rs.getString(2),rs.getString(3));
 			clienteList.add(p);
 		}

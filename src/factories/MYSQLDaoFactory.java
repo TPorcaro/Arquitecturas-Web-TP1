@@ -8,7 +8,9 @@ import daos.Factura_Producto.Factura_ProductoDao;
 import daos.Factura_Producto.Factura_ProductoDaoSQL;
 import daos.Producto.ProductoDao;
 import daos.Producto.ProductoDaoSQL;
-
+/**
+ * Esta clase se encarga de retornar los daos dependiendo el metodo
+ */
 public class MYSQLDaoFactory extends DAOFactory{
 
 	public MYSQLDaoFactory() {
