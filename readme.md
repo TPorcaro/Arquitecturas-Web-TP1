@@ -1,6 +1,6 @@
-##TP1 Entregable - Arquitecturas Web
+## TP1 Entregable - Arquitecturas Web
 
-###TUDAI - Bolivar
+### TUDAI - Bolivar
 
 En caso de necesitar ejecutar la creacion de tablas, descomentar linea 25 **Main.java**
 
